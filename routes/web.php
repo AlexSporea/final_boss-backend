@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +16,4 @@ use Illuminate\Support\Facades\Http;
 Route::get('/', function () {
 
     return view('welcome');
-});
-
-Route::get('/test', function () {
-    $events = Http::get('https://api.euskadi.eus/culture/events/v1.0/eventType');
-    $eventsArray = $events->json();
-
-    return view('test', compact('eventsArray'));
 });
