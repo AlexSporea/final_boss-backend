@@ -16,8 +16,8 @@ class EventoController extends Controller
         foreach ($events['items'] as $event) {
         
             Evento::insert([
-                'nameEs' => $event['nameEs'],
-                'nameEu' => $event['nameEu'],
+                'nameEs' => str_replace('"', '', $event['nameEs']),
+                'nameEu' => str_replace('"', '', $event['nameEu']),
                 'typeEs' => $event['typeEs'],
                 'priceEs' => self::validValue($event, 'priceEs'),
                 'municipalityEs' => $event['municipalityEs'],

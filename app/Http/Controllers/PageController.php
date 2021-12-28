@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Evento;
+use App\Models\AdminEvento;
 
 class PageController extends Controller
 {
@@ -76,20 +77,50 @@ class PageController extends Controller
     }
 
     //Mostramos los eventos
-    public function eventos()
-    {
-        $eventos = Evento::all();
-        $data = [];
-        $data['category'] = Evento::select('typeEs')->distinct()->get();
+    public function eventos() {
+        $data = [[],[]];
+        $objsType = Evento::select('typeEs')->distinct()->get();
 
-        foreach($eventos as $evento) {
-            $data['label'][] = $evento->nameEs;
-            $data['data'][] = $evento->typeEs;
+        /*Convertimos la colección a json y el json a un array de objetos, 
+        estos objetos tienen la propiedad typeEs*/
+        $objsType = json_encode($objsType);
+        $objsType = json_decode($objsType);
+
+        //Guardamos en data[0] los valores de typeEs
+        foreach ($objsType as $obj) {
+            array_push($data[0], $obj->typeEs);
         }
 
-        dd($data);
+        //Guardamos en data[1] el nr de ventos por cada tipo
+        foreach ($data[0] as $tipo) {
+            array_push($data[1], Evento::where('typeEs', '=',$tipo)->get()->count());
+        }
+        
         $data['data'] = json_encode($data);
-
+        
         return view('pages.eventos', $data);
+    }
+
+    public function adminEventos() {
+        $data = [[],[]];
+        $objsType = AdminEvento::select('entityEs')->distinct()->get();
+
+        $objsType = json_encode($objsType);
+        $objsType = json_decode($objsType);
+
+        //Guardamos en data[0] los valores de entityEs
+        foreach ($objsType as $obj) {
+            array_push($data[0], $obj->entityEs);
+        }
+
+        dd($data[0]);
+        
+        //Guardamos en data[1] el nr de ventos por cada tipo
+        foreach ($data[0] as $tipo) {
+            array_push($data[1], Evento::where('typeEs', '=',$tipo)->get()->count());
+        }
+        
+        $data['data'] = json_encode($data);
+        return view('pages.adminEventos');
     }
 }

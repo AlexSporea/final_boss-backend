@@ -35,11 +35,18 @@
                     </ul>
                 </div>
             </li>
-            <!-- Nuevo menú para eventos -->
+            <!-- Nuevo menú para Eventos -->
             <li @if ($pageSlug == 'eventos') class="active " @endif>
                 <a href="{{ route('pages.eventos') }}">
-                    <i class="tim-icons icon-chart-pie-36"></i>
+                    <i class="tim-icons icon-headphones"></i>
                     <p>{{ _('Eventos') }}</p>
+                </a>
+            </li>
+            <!-- Nuevo menú para Admin Eventos -->
+            <li @if ($pageSlug == 'adminEventos') class="active " @endif>
+                <a href="{{ route('pages.adminEventos') }}">
+                    <i class="tim-icons icon-bank"></i>
+                    <p>{{ _('Admin Eventos') }}</p>
                 </a>
             </li>
             <li @if ($pageSlug == 'icons') class="active " @endif>

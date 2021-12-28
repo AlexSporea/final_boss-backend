@@ -3,43 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card card-chart">
-                <div class="card-header ">
-                    <div class="row">
-                        <div class="col-sm-6 text-left">
-                            <h5 class="card-category">Eventos</h5>
-                            <h2 class="card-title">Logística - Eventos</h2>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                            <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                                <input type="radio" name="options" checked>
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Accounts</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-single-02"></i>
-                                </span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="1">
-                                <input type="radio" class="d-none d-sm-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Purchases</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-gift-2"></i>
-                                </span>
-                            </label>
-                            <label class="btn btn-sm btn-primary btn-simple" id="2">
-                                <input type="radio" class="d-none" name="options">
-                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sessions</span>
-                                <span class="d-block d-sm-none">
-                                    <i class="tim-icons icon-tap-02"></i>
-                                </span>
-                            </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card card-chart">  
                 <div class="card-body">
                     <div>
-                        <canvas id="eventos"></canvas>
+                        <canvas id="chart-eventos" style="display:block; width:100%; height:600px"></canvas>
                     </div>
                 </div>
             </div>
@@ -51,8 +18,61 @@
     <script src="{{ asset('white') }}/js/plugins/chartjs.min.js"></script>
     <script>
         $(document).ready(function() {
-            var cData = JSON.parse(`<?php echo $data; ?>`);
-            console.log("Hello " + cData);
+            // Obtenemos el array enviado y lo convertimos a json
+            let cData = JSON.parse(`<?php echo $data; ?>`);
+            console.log(cData);
+            
+            const ctx = document.getElementById('chart-eventos').getContext('2d');
+
+            // Opciones globales de los gráficos
+            Chart.defaults.global.defaultFontColor= '#000';
+            Chart.defaults.global.defaultFontFamily= 'Lato';
+            
+            // Creamos el gráfico
+            const myChart = new Chart(ctx, {
+                type:'bar',
+                data:{
+                    labels:cData[0],
+                    datasets:[{
+                        label:'Tipo de evento',
+                        data:cData[1],
+                        backgroundColor:[
+                            'rgb(217, 237, 146)',
+                            'rgb(181, 228, 140)',
+                            'rgb(153, 217, 140)',
+                            'rgb(118, 200, 147)',
+                            'rgb(82, 182, 154)',
+                            'rgb(52, 160, 164)',
+                            'rgb(22, 138, 173)',
+                            'rgb(26, 117, 159)',
+                            'rbg(30, 96, 145)'
+                        ],
+                        borderWidth:1,
+                        borderColor:'#777',
+                        hoverBorderWidth:3,
+                        hoverBorderColor:'#000'
+                    }]
+                },
+                options:{
+                    title:{
+                        display:true,
+                        text:'Logística - Eventos',
+                        fontSize:25
+                    },
+                    legend:{
+                        position:'left',
+                        fontColor: '#777'
+                    },
+                    scales:{
+                    yAxes:[{
+                        ticks:{
+                            beginAtZero:true,
+                            max:8
+                        }
+                    }]
+                }
+                }
+            });
         });
     </script>
 @endpush
