@@ -23,7 +23,7 @@
             console.log(cData);
             
             const ctx = document.getElementById('chart-eventos').getContext('2d');
-
+            
             // Opciones globales de los gráficos
             Chart.defaults.global.defaultFontColor= '#000';
             Chart.defaults.global.defaultFontFamily= 'Lato';

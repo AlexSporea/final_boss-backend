@@ -10,10 +10,15 @@ use App\Http\Controllers\EventoController;
 class AdminEventoController extends Controller
 {
     public function populateTable() {
+        for ($i=1; $i < 4; $i++) { 
+            self::insertData();
+        }
+    }
 
-        $adminEvents = Http::get('https://api.euskadi.eus/administration/events/v1.0/events?_page=1');
+    private static function insertData() {
         
-        $adminEventsArray = $adminEvents->json();
+        $adminEventsArray = self::accessApi();
+        $adminEventsArray = $adminEventsArray->json();
 
         foreach ($adminEventsArray['events'] as $adminEvent) {
         
@@ -22,14 +27,18 @@ class AdminEventoController extends Controller
                 'adjudicatorEu' => $adminEvent['adjudicatorEu'],
                 'authorityEs' => EventoController::validValue($adminEvent, 'authorityEs'),
                 'descriptionEs' => $adminEvent['descriptionEs'],
-                'entityEs' => $adminEvent['entityEs'],
+                'entityEs' => EventoController::validValue($adminEvent, 'entityEs'),
                 'nameEs' => $adminEvent['nameEs'],
                 'startDate' => $adminEvent['startDate'],
                 'typeEs' => $adminEvent['typeEs']
-
             ]);
-
         }
+    }
 
+    private static function accessApi() {
+        $random = rand(1, 4000);
+        $adminEvents = Http::get("https://api.euskadi.eus/administration/events/v1.0/events?_page=$random");
+
+        return $adminEvents;
     }
 }

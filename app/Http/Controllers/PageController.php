@@ -101,26 +101,30 @@ class PageController extends Controller
         return view('pages.eventos', $data);
     }
 
+    // Mostramos los eventos admin.
     public function adminEventos() {
         $data = [[],[]];
-        $objsType = AdminEvento::select('entityEs')->distinct()->get();
+        $objsType = AdminEvento::select('adjudicatorEs')->distinct()->get();
 
+         /*Convertimos la colección a json y el json a un array de objetos, 
+        estos objetos tienen la propiedad adjudicatorEs*/
         $objsType = json_encode($objsType);
         $objsType = json_decode($objsType);
 
-        //Guardamos en data[0] los valores de entityEs
-        foreach ($objsType as $obj) {
-            array_push($data[0], $obj->entityEs);
+        /*Guardamos en data[0] los valores de adjudicatorEs,
+        usando solmante un trozo del array objsType*/
+        for($i = 16; $i < 26; $i++) {
+            array_push($data[0], $objsType[$i]->adjudicatorEs);
         }
 
-        dd($data[0]);
         
-        //Guardamos en data[1] el nr de ventos por cada tipo
+        //Guardamos en data[1] el nr de ventos por adjudicador
         foreach ($data[0] as $tipo) {
-            array_push($data[1], Evento::where('typeEs', '=',$tipo)->get()->count());
+            array_push($data[1], AdminEvento::where('adjudicatorEs', '=',$tipo)->get()->count());
         }
         
         $data['data'] = json_encode($data);
-        return view('pages.adminEventos');
+        
+        return view('pages.adminEventos', $data);
     }
 }
