@@ -49,6 +49,20 @@
                     <p>{{ _('Admin Eventos') }}</p>
                 </a>
             </li>
+            <!-- Nuevo menú para incidencias -->
+            <li @if ($pageSlug == 'incidencias') class="active " @endif>
+                <a href="{{ route('pages.incidencias') }}">
+                    <i class="tim-icons icon-bus-front-12"></i>
+                    <p>{{ _('Incidencias') }}</p>
+                </a>
+            </li>
+            <!-- Nuevo menú para meteo -->
+            <li @if ($pageSlug == 'meteo') class="active " @endif>
+                <a href="{{ route('pages.meteo') }}">
+                    <i class="tim-icons icon-world"></i>
+                    <p>{{ _('Meteo') }}</p>
+                </a>
+            </li>
             <li @if ($pageSlug == 'icons') class="active " @endif>
                 <a href="{{ route('pages.icons') }}">
                     <i class="tim-icons icon-atom"></i>

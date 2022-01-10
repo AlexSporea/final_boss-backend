@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Evento;
 use App\Models\AdminEvento;
-
+use App\Models\Incidencia;
+use App\Http\Controllers\EventoController;
 class PageController extends Controller
 {
     /**
@@ -118,7 +119,7 @@ class PageController extends Controller
         }
 
         
-        //Guardamos en data[1] el nr de ventos por adjudicador
+        //Guardamos en data[1] el nr de eventos por adjudicador
         foreach ($data[0] as $tipo) {
             array_push($data[1], AdminEvento::where('adjudicatorEs', '=',$tipo)->get()->count());
         }
@@ -126,5 +127,41 @@ class PageController extends Controller
         $data['data'] = json_encode($data);
         
         return view('pages.adminEventos', $data);
+    }
+
+    // Mostramos las incidencias
+    public function incidencias() {
+        $data = [[],[]];
+        $objsType = Incidencia::select('province')->distinct()->get();
+
+         /*Convertimos la colección a json y el json a un array de objetos, 
+        estos objetos tienen la propiedad incidenceType*/
+        $objsType = json_encode($objsType);
+        $objsType = json_decode($objsType);
+
+        dd($objsType);
+
+        //*Guardamos en data[0] los valores de incidenceType
+        foreach ($objsType as $obj) {
+            array_push($data[0], $obj->incidenceType);
+        }
+
+        
+        //Guardamos en data[1] el nr de incidencias por tipo
+        foreach ($data[0] as $tipo) {
+            array_push($data[1], Incidencia::where('incidenceType', '=',$tipo)->get()->count());
+        }
+        
+        $data['data'] = json_encode($data);
+        
+        return view('pages.adminEventos', $data);
+    }
+
+    // Mostramos información meteorológica
+    public function meteo() {
+        $data['data'] = json_encode(MeteoController::getMeteoData());
+        
+        
+        return view('pages.meteo', $data);
     }
 }
