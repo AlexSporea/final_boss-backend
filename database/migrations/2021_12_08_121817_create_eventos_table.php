@@ -16,14 +16,7 @@ class CreateEventosTable extends Migration
         Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->string('nameEs');
-            $table->string('nameEu');
             $table->string('typeEs');
-            $table->string('priceEs')->default("");
-            $table->string('municipalityEs');
-            $table->string('placeEs')->default(""); 
-            $table->string('startDate');
-            $table->string('openingHoursEs');
-            $table->string('establishmentEs')->default("");
             $table->timestamps();
         });
     }

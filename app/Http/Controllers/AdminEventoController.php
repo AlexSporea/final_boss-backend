@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminEvento;
 use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\EventoController;
 
 class AdminEventoController extends Controller
 {
@@ -23,14 +22,8 @@ class AdminEventoController extends Controller
         foreach ($adminEventsArray['events'] as $adminEvent) {
         
             AdminEvento::insert([
-                'adjudicatorEs' => $adminEvent['adjudicatorEs'],
-                'adjudicatorEu' => $adminEvent['adjudicatorEu'],
-                'authorityEs' => EventoController::validValue($adminEvent, 'authorityEs'),
-                'descriptionEs' => $adminEvent['descriptionEs'],
-                'entityEs' => EventoController::validValue($adminEvent, 'entityEs'),
                 'nameEs' => $adminEvent['nameEs'],
-                'startDate' => $adminEvent['startDate'],
-                'typeEs' => $adminEvent['typeEs']
+                'adjudicatorEs' => $adminEvent['adjudicatorEs']
             ]);
         }
     }
@@ -40,5 +33,29 @@ class AdminEventoController extends Controller
         $adminEvents = Http::get("https://api.euskadi.eus/administration/events/v1.0/events?_page=$random");
 
         return $adminEvents;
+    }
+
+    public function getAdminEventos() {
+        $data = [[],[]];
+        $objsType = AdminEvento::select('adjudicatorEs')->distinct()->get();
+
+         /*Convertimos la colección a json y el json a un array de objetos, 
+        estos objetos tienen la propiedad adjudicatorEs*/
+        $objsType = json_encode($objsType);
+        $objsType = json_decode($objsType);
+
+        /*Guardamos en data[0] los valores de adjudicatorEs,
+        usando solmante un trozo del array objsType*/
+        foreach ($objsType as $obj) {
+            array_push($data[0], $obj->adjudicatorEs);
+        }
+
+        
+        //Guardamos en data[1] el nr de eventos por adjudicador
+        foreach ($data[0] as $tipo) {
+            array_push($data[1], AdminEvento::where('adjudicatorEs', '=',$tipo)->get()->count());
+        }
+        
+        return json_encode($data);
     }
 }

@@ -30,7 +30,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('upgrade', ['as' => 'pages.upgrade', 'uses' => 'App\Http\Controllers\PageController@upgrade']);
 		Route::get('eventos', ['as' => 'pages.eventos', 'uses' => 'App\Http\Controllers\PageController@eventos']);
 		Route::get('adminEventos', ['as' => 'pages.adminEventos', 'uses' => 'App\Http\Controllers\PageController@adminEventos']);
-		Route::get('incidencias', ['as' => 'pages.incidencias', 'uses' => 'App\Http\Controllers\PageController@incidencias']);
 		Route::get('meteo', ['as' => 'pages.meteo', 'uses' => 'App\Http\Controllers\PageController@meteo']);
 		
 });

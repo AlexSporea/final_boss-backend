@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\AdminEventoController;
-use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\MeteoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +26,13 @@ Route::get('/populateEventos', [EventoController::class, 'populateTable']);
 
 Route::get('/populateAdminEventos', [AdminEventoController::class, 'populateTable']);
 
-Route::get('/populateIncidencias', [IncidenciaController::class, 'populateTable']);
+Route::get('/populateMeteo', [MeteoController::class, 'populateTable']);
+
+Route::get('/getEventos', [EventoController::class, 'getEventos']);
+
+Route::get('/getAdminEventos', [AdminEventoController::class, 'getAdminEventos']);
+
+Route::get('/getMeteo', [MeteoController::class, 'getMeteo']);
 
 
 

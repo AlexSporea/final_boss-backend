@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Http;
+use App\Models\Meteo;
 
 class MeteoController extends Controller
 {
@@ -19,97 +19,96 @@ class MeteoController extends Controller
         /* Al intentar acceder a los municipios con geoapi.es algunos nombres llevaban un _
         y estos variaban si se ralizaban varias consultas */
         self::$municipialities = [
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>'ABALTZISKETA'],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ADUNA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"AIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"AIZARNAZABAL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ALBIZTUR"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ALEGIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ALKIZA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ALTZAGA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ALTZO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"AMEZKETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ANDOAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ANOETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ANTZUOLA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ARAMA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ARETXABAlETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ARRASATE"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ASTEASU"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ASTIGARRAGA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ATAUN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"AZKOITIA"]];
-        
-        /*,
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"AZPEITiA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BALIARRAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BEASAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BEIZAMA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BELAUNTZA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BERASTEGI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BERGARA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BERROBI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"BIDANiA-GOIATZ"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"DEBA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"DONOSTIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"EIBAR"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ELDUAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ELGETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ELGOIBAR"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ERRENTERIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ERREZIL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ESKORIATZA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ESKIO-ITSASO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"GABIRIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"GAINTZA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"GAZTELU"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"GETARIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"HERNANI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"HERNIALDE"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"HONDARRIBIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"IBARRA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"IDIAZABAL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"IKAZTEGIETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"IRUN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"IRURA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ITSASONDO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LARRAUL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LASARTE-ORIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LAZKAO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LEABURU"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LEGAZPI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LEGORRETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LEINTZ-GATZAGA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LEZO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"LIZARTZA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"MENDARO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"MUTILOA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"MUTRIKU"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"OIARTZUN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"OLABERRIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"OÑATI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ORDIZIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ORENDAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"OREXA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ORIO"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ORMAIZTEGI"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"PASAIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"SEGURA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"SORALUZE"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"TOLOSA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"URNIETA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"URRETXU"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"USURBIL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"VILLABONA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZALDIBIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZARAUTZ"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZEGAMA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZERAIN"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZESTOA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZIZURKIL"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZUMAIA"],
-        ['lat' => '', 'lon' => '', 'weather' => '', 'name'=>"ZUMARRAGA"]
-        ];*/
+        ['name'=>'ABALTZISKETA'],
+        ['name'=>"ADUNA"],
+        ['name'=>"AIA"],
+        ['name'=>"AIZARNAZABAL"],
+        ['name'=>"ALBIZTUR"],
+        ['name'=>"ALEGIA"],
+        ['name'=>"ALKIZA"],
+        ['name'=>"ALTZAGA"],
+        ['name'=>"ALTZO"],
+        ['name'=>"AMEZKETA"],
+        ['name'=>"ANDOAIN"],
+        ['name'=>"ANOETA"],
+        ['name'=>"ANTZUOLA"],
+        ['name'=>"ARAMA"],
+        ['name'=>"ARETXABAlETA"],
+        ['name'=>"ARRASATE"],
+        ['name'=>"ASTEASU"],
+        ['name'=>"ASTIGARRAGA"],
+        ['name'=>"ATAUN"],
+        ['name'=>"AZKOITIA"],
+        ['name'=>"AZPEITiA"],
+        ['name'=>"BALIARRAIN"],
+        ['name'=>"BEASAIN"],
+        ['name'=>"BEIZAMA"],
+        ['name'=>"BELAUNTZA"],
+        ['name'=>"BERASTEGI"],
+        ['name'=>"BERGARA"],
+        ['name'=>"BERROBI"],
+        ['name'=>"BIDANiA-GOIATZ"],
+        ['name'=>"DEBA"],
+        ['name'=>"DONOSTIA"],
+        ['name'=>"EIBAR"],
+        ['name'=>"ELDUAIN"],
+        ['name'=>"ELGETA"],
+        ['name'=>"ELGOIBAR"],
+        ['name'=>"ERRENTERIA"],
+        ['name'=>"ERREZIL"],
+        ['name'=>"ESKORIATZA"]];
+        /*
+        ['name'=>"ESKIO-ITSASO"],
+        ['name'=>"GABIRIA"],
+        ['name'=>"GAINTZA"],
+        ['name'=>"GAZTELU"],
+        ['name'=>"GETARIA"],
+        ['name'=>"HERNANI"],
+        ['name'=>"HERNIALDE"],
+        ['name'=>"HONDARRIBIA"],
+        ['name'=>"IBARRA"],
+        ['name'=>"IDIAZABAL"],
+        ['name'=>"IKAZTEGIETA"],
+        ['name'=>"IRUN"],
+        ['name'=>"IRURA"],
+        ['name'=>"ITSASONDO"],
+        ['name'=>"LARRAUL"],
+        ['name'=>"LASARTE-ORIA"],
+        ['name'=>"LAZKAO"],
+        ['name'=>"LEABURU"],
+        ['name'=>"LEGAZPI"],
+        ['name'=>"LEGORRETA"],
+        ['name'=>"LEINTZ-GATZAGA"],
+        ['name'=>"LEZO"],
+        ['name'=>"LIZARTZA"],
+        ['name'=>"MENDARO"],
+        ['name'=>"MUTILOA"],
+        ['name'=>"MUTRIKU"],
+        ['name'=>"OIARTZUN"],
+        ['name'=>"OLABERRIA"],
+        ['name'=>"OÑATI"],
+        ['name'=>"ORDIZIA"],
+        ['name'=>"ORENDAIN"],
+        ['name'=>"OREXA"],
+        ['name'=>"ORIO"],
+        ['name'=>"ORMAIZTEGI"],
+        ['name'=>"PASAIA"],
+        ['name'=>"SEGURA"],
+        ['name'=>"SORALUZE"],
+        ['name'=>"TOLOSA"],
+        ['name'=>"URNIETA"],
+        ['name'=>"URRETXU"],
+        ['name'=>"USURBIL"],
+        ['name'=>"VILLABONA"],
+        ['name'=>"ZALDIBIA"],
+        ['name'=>"ZARAUTZ"],
+        ['name'=>"ZEGAMA"],
+        ['name'=>"ZERAIN"],
+        ['name'=>"ZESTOA"],
+        ['name'=>"ZIZURKIL"],
+        ['name'=>"ZUMAIA"],
+        ['name'=>"ZUMARRAGA"]
+        ]*/
     }
 
 
@@ -136,7 +135,7 @@ class MeteoController extends Controller
         
     }
 
-    public static function getMeteoData() {
+    public static function populateTable() {
         
         self::setProperties();
 
@@ -145,14 +144,24 @@ class MeteoController extends Controller
             $info = self::getApiData(self::$municipialities[$i]["name"]);
             $info = json_decode($info);
             
-            self::$municipialities[$i]["weather"] = $info->weather[0]->main;
-            self::$municipialities[$i]["lon"] = $info->coord->lon;
-            self::$municipialities[$i]["lat"] = $info->coord->lat;
+            Meteo::insert([
+                'nameEs' => self::$municipialities[$i]["name"],
+                'lon' => $info->coord->lon,
+                'lat' => $info->coord->lat,
+                'weather' => $info->weather[0]->main
+            ]);
             
         }
-
-        return self::$municipialities;
         
+    }
+
+    public function getMeteo() {
+        $data = Meteo::all();
+        
+        //Convertimos la colección a json
+        $data = json_encode($data);
+        
+        return $data;
     }
 
 

@@ -17,23 +17,36 @@ class EventoController extends Controller
         
             Evento::insert([
                 'nameEs' => str_replace('"', '', $event['nameEs']),
-                'nameEu' => str_replace('"', '', $event['nameEu']),
                 'typeEs' => $event['typeEs'],
-                'priceEs' => self::validValue($event, 'priceEs'),
-                'municipalityEs' => $event['municipalityEs'],
-                'placeEs' => self::validValue($event, 'placeEs'),
-                'startDate' => $event['startDate'],
-                'openingHoursEs' => self::validValue($event, 'openingHoursEs'),
-                'establishmentEs' => self::validValue($event, 'establishmentEs')
-
+                
             ]);
 
         }
 
     }
-    // Comprobamos si el campo es nulo y devolvemos el valor correspondiente
-    public static function validValue($currentEvent, $value) {
-        if (isset($currentEvent[$value])) return $currentEvent[$value];
-        return "";
+
+    public function getEventos() {
+        $data = [[],[]];
+        $objsType = Evento::select('typeEs')->distinct()->get();
+
+        /*Convertimos la colección a json y el json a un array de objetos, 
+        estos objetos tienen la propiedad typeEs*/
+        $objsType = json_encode($objsType);
+        $objsType = json_decode($objsType);
+
+        //Guardamos en data[0] los valores de typeEs
+        foreach ($objsType as $obj) {
+            array_push($data[0], $obj->typeEs);
+        }
+
+        //Guardamos en data[1] el nr de ventos por cada tipo
+        foreach ($data[0] as $tipo) {
+            array_push($data[1], Evento::where('typeEs', '=',$tipo)->get()->count());
+        }
+
+        // Obtenemos el valor máximo el cual nos ayudará para el gráfico
+        $data[2] = max($data[1]);
+
+        return json_encode($data);
     }
 }

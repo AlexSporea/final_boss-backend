@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdminEventosTable extends Migration
+class CreateMeteosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateAdminEventosTable extends Migration
      */
     public function up()
     {
-        Schema::create('admin_eventos', function (Blueprint $table) {
+        Schema::create('meteos', function (Blueprint $table) {
             $table->id();
             $table->string('nameEs');
-            $table->string('adjudicatorEs');
-            
-
+            $table->string('lat');
+            $table->string('lon');
+            $table->string('weather');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateAdminEventosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin_eventos');
+        Schema::dropIfExists('meteos');
     }
 }

@@ -114,7 +114,7 @@ class PageController extends Controller
 
         /*Guardamos en data[0] los valores de adjudicatorEs,
         usando solmante un trozo del array objsType*/
-        for($i = 16; $i < 26; $i++) {
+        for($i = 0; $i <count($objsType); $i++) {
             array_push($data[0], $objsType[$i]->adjudicatorEs);
         }
 
@@ -127,41 +127,5 @@ class PageController extends Controller
         $data['data'] = json_encode($data);
         
         return view('pages.adminEventos', $data);
-    }
-
-    // Mostramos las incidencias
-    public function incidencias() {
-        $data = [[],[]];
-        $objsType = Incidencia::select('province')->distinct()->get();
-
-         /*Convertimos la colección a json y el json a un array de objetos, 
-        estos objetos tienen la propiedad incidenceType*/
-        $objsType = json_encode($objsType);
-        $objsType = json_decode($objsType);
-
-        dd($objsType);
-
-        //*Guardamos en data[0] los valores de incidenceType
-        foreach ($objsType as $obj) {
-            array_push($data[0], $obj->incidenceType);
-        }
-
-        
-        //Guardamos en data[1] el nr de incidencias por tipo
-        foreach ($data[0] as $tipo) {
-            array_push($data[1], Incidencia::where('incidenceType', '=',$tipo)->get()->count());
-        }
-        
-        $data['data'] = json_encode($data);
-        
-        return view('pages.adminEventos', $data);
-    }
-
-    // Mostramos información meteorológica
-    public function meteo() {
-        $data['data'] = json_encode(MeteoController::getMeteoData());
-        
-        
-        return view('pages.meteo', $data);
     }
 }
