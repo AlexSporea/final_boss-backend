@@ -3,19 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use App\Models\Meteo;
 
 class MeteoController extends Controller
 {
-    private static $geoApiKey;
-    private static $openWehatherApiKey;
     private static $geoApiUrl;
     private static $municipialities;
     
-    /* A pesar de ser un forma poco segura de guardar las api keys, 
-    no supone inconvenientes para este proyecto*/
     private static function setProperties() {
-        self::$openWehatherApiKey = 'f29ab863193442997819ebbc2e084bc4';
         /* Al intentar acceder a los municipios con geoapi.es algunos nombres llevaban un _
         y estos variaban si se ralizaban varias consultas */
         self::$municipialities = [
@@ -113,7 +109,8 @@ class MeteoController extends Controller
 
 
     private static function getApiData($municipiality) {
-        $url = "api.openweathermap.org/data/2.5/weather?q=$municipiality,es&appid=" . self::$openWehatherApiKey;
+        $url = "api.openweathermap.org/data/2.5/weather?q=$municipiality,es&appid=";
+        $url .= Config::get('services.openweathermap.key');;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
