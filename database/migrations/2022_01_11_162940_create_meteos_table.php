@@ -19,6 +19,10 @@ class CreateMeteosTable extends Migration
             $table->string('lat');
             $table->string('lon');
             $table->string('weather');
+            $table->string('description');
+            $table->string('temp');
+            $table->string('feels_like');
+            $table->string('humidity');
             $table->timestamps();
         });
     }

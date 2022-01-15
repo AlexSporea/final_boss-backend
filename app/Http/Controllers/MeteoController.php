@@ -17,19 +17,14 @@ class MeteoController extends Controller
         self::$municipialities = [
         ['name'=>'ABALTZISKETA'],
         ['name'=>"ADUNA"],
-        ['name'=>"AIA"],
         ['name'=>"AIZARNAZABAL"],
-        ['name'=>"ALBIZTUR"],
         ['name'=>"ALEGIA"],
-        ['name'=>"ALKIZA"],
         ['name'=>"ALTZAGA"],
         ['name'=>"ALTZO"],
-        ['name'=>"AMEZKETA"],
         ['name'=>"ANDOAIN"],
         ['name'=>"ANOETA"],
         ['name'=>"ANTZUOLA"],
         ['name'=>"ARAMA"],
-        ['name'=>"ARETXABAlETA"],
         ['name'=>"ARRASATE"],
         ['name'=>"ASTEASU"],
         ['name'=>"ASTIGARRAGA"],
@@ -43,73 +38,28 @@ class MeteoController extends Controller
         ['name'=>"BERASTEGI"],
         ['name'=>"BERGARA"],
         ['name'=>"BERROBI"],
-        ['name'=>"BIDANiA-GOIATZ"],
         ['name'=>"DEBA"],
         ['name'=>"DONOSTIA"],
         ['name'=>"EIBAR"],
-        ['name'=>"ELDUAIN"],
-        ['name'=>"ELGETA"],
-        ['name'=>"ELGOIBAR"],
         ['name'=>"ERRENTERIA"],
-        ['name'=>"ERREZIL"],
-        ['name'=>"ESKORIATZA"]];
-        /*
-        ['name'=>"ESKIO-ITSASO"],
-        ['name'=>"GABIRIA"],
-        ['name'=>"GAINTZA"],
-        ['name'=>"GAZTELU"],
-        ['name'=>"GETARIA"],
         ['name'=>"HERNANI"],
-        ['name'=>"HERNIALDE"],
         ['name'=>"HONDARRIBIA"],
-        ['name'=>"IBARRA"],
-        ['name'=>"IDIAZABAL"],
-        ['name'=>"IKAZTEGIETA"],
         ['name'=>"IRUN"],
-        ['name'=>"IRURA"],
-        ['name'=>"ITSASONDO"],
-        ['name'=>"LARRAUL"],
-        ['name'=>"LASARTE-ORIA"],
-        ['name'=>"LAZKAO"],
-        ['name'=>"LEABURU"],
-        ['name'=>"LEGAZPI"],
-        ['name'=>"LEGORRETA"],
-        ['name'=>"LEINTZ-GATZAGA"],
-        ['name'=>"LEZO"],
-        ['name'=>"LIZARTZA"],
-        ['name'=>"MENDARO"],
-        ['name'=>"MUTILOA"],
-        ['name'=>"MUTRIKU"],
         ['name'=>"OIARTZUN"],
-        ['name'=>"OLABERRIA"],
         ['name'=>"OÑATI"],
-        ['name'=>"ORDIZIA"],
-        ['name'=>"ORENDAIN"],
-        ['name'=>"OREXA"],
         ['name'=>"ORIO"],
-        ['name'=>"ORMAIZTEGI"],
         ['name'=>"PASAIA"],
-        ['name'=>"SEGURA"],
-        ['name'=>"SORALUZE"],
         ['name'=>"TOLOSA"],
         ['name'=>"URNIETA"],
-        ['name'=>"URRETXU"],
-        ['name'=>"USURBIL"],
-        ['name'=>"VILLABONA"],
-        ['name'=>"ZALDIBIA"],
         ['name'=>"ZARAUTZ"],
-        ['name'=>"ZEGAMA"],
-        ['name'=>"ZERAIN"],
-        ['name'=>"ZESTOA"],
-        ['name'=>"ZIZURKIL"],
         ['name'=>"ZUMAIA"],
-        ['name'=>"ZUMARRAGA"]
-        ]*/
+        ['name'=>"ZUMARRAGA"]];
+        
     }
 
 
     private static function getApiData($municipiality) {
-        $url = "api.openweathermap.org/data/2.5/weather?q=$municipiality,es&appid=";
+        $url = "api.openweathermap.org/data/2.5/weather?q=$municipiality,es&lang=es&units=metric&appid=";
         $url .= Config::get('services.openweathermap.key');;
         $curl = curl_init();
 
@@ -145,7 +95,11 @@ class MeteoController extends Controller
                 'nameEs' => self::$municipialities[$i]["name"],
                 'lon' => $info->coord->lon,
                 'lat' => $info->coord->lat,
-                'weather' => $info->weather[0]->main
+                'weather' => $info->weather[0]->main,
+                'description' => $info->weather[0]->description,
+                'temp' => $info->main->temp,
+                'feels_like' => $info->main->feels_like,
+                'humidity' => $info->main->humidity
             ]);
             
         }
