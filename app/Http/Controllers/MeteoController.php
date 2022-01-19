@@ -13,7 +13,7 @@ class MeteoController extends Controller
     
     private static function setProperties() {
         /* Al intentar acceder a los municipios con geoapi.es algunos nombres llevaban un _
-        y estos variaban si se ralizaban varias consultas */
+        y estos varían si se realizan varias consultas */
         self::$municipialities = [
         ['name'=>'ABALTZISKETA'],
         ['name'=>"ADUNA"],
@@ -60,7 +60,8 @@ class MeteoController extends Controller
 
     private static function getApiData($municipiality) {
         $url = "api.openweathermap.org/data/2.5/weather?q=$municipiality,es&lang=es&units=metric&appid=";
-        $url .= Config::get('services.openweathermap.key');;
+        // Añadimos la clave
+        $url .= Config::get('services.openweathermap.key');
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -73,7 +74,6 @@ class MeteoController extends Controller
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         ));
-
         $response = curl_exec($curl);
 
         curl_close($curl);

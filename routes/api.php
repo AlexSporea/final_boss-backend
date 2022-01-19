@@ -6,7 +6,6 @@ use App\Http\Controllers\MeteoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +32,3 @@ Route::get('/getEventos', [EventoController::class, 'getEventos']);
 Route::get('/getAdminEventos', [AdminEventoController::class, 'getAdminEventos']);
 
 Route::get('/getMeteo', [MeteoController::class, 'getMeteo']);
-
-
-

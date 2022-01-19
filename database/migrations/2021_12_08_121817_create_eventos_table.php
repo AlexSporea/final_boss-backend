@@ -17,6 +17,8 @@ class CreateEventosTable extends Migration
             $table->id();
             $table->string('nameEs');
             $table->string('typeEs');
+            $table->string('municipalityEs');
+            $table->date('startDate');
             $table->timestamps();
         });
     }

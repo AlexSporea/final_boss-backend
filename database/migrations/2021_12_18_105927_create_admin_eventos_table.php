@@ -17,8 +17,7 @@ class CreateAdminEventosTable extends Migration
             $table->id();
             $table->string('nameEs');
             $table->string('adjudicatorEs');
-            
-
+            $table->date('startDate');
             $table->timestamps();
         });
     }

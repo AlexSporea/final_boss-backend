@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminEvento;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\EventoController;
 
 class AdminEventoController extends Controller
 {
@@ -23,7 +24,8 @@ class AdminEventoController extends Controller
         
             AdminEvento::insert([
                 'nameEs' => $adminEvent['nameEs'],
-                'adjudicatorEs' => $adminEvent['adjudicatorEs']
+                'adjudicatorEs' => $adminEvent['adjudicatorEs'],
+                'startDate' => EventoController::changeDateFormat($adminEvent['startDate'])
             ]);
         }
     }
@@ -50,7 +52,6 @@ class AdminEventoController extends Controller
             array_push($data[0], $obj->adjudicatorEs);
         }
 
-        
         //Guardamos en data[1] el nr de eventos por adjudicador
         foreach ($data[0] as $tipo) {
             array_push($data[1], AdminEvento::where('adjudicatorEs', '=',$tipo)->get()->count());
